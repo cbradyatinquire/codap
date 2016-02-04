@@ -541,7 +541,11 @@ DG.GameController = DG.ComponentController.extend(
 
     notifyGameAboutExternalUndo: function() {
       if (this.get('gameIsReady') && DG.UndoHistory.get('enabled')) {
-        this.gamePhone.call({ operation: "externalUndoAvailable" });
+        if (DG.STANDALONE_MODE) {
+          this.gamePhone.call({ operation: "standaloneUndoModeAvailable" });
+        } else {
+          this.gamePhone.call({ operation: "externalUndoAvailable" });
+        }
       }
     }.observes('gameIsReady'),
 
